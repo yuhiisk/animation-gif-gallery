@@ -1,0 +1,17 @@
+{
+  "name": "aniGIF-gallery",
+  "version": "0.1.0",
+  "authors": [
+    "Youhei Isokawa <youheiisokawa@gmail.com>"
+  ],
+  "license": "MIT",
+  "devDependencies": {
+    "normalize-css": null,
+    "modernizr": null,
+    "html5-boilerplate": null,
+    "lodash": null,
+    "backbone": null,
+    "handlebars": null,
+    "jquery": null
+  }
+}
