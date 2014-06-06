@@ -1,6 +1,11 @@
-@charset "utf-8";
+// Foundation by ZURB
+// foundation.zurb.com
+// Licensed under MIT Open Source
 
-// import 'foundation'
+// Make sure the charset is set appropriately
+@charset "UTF-8";
+
+// Behold, here are all the Foundation components.
 @import
   "foundation/components/grid",
   "foundation/components/accordion",
@@ -38,25 +43,3 @@
   "foundation/components/type",
   "foundation/components/offcanvas",
   "foundation/components/visibility";
-
-@import "compass";
-
-// .clearfix:before,
-// .clearfix:after {
-//     content: " ";
-//     display: table;
-// }
-// .clearfix:after {
-//     clear: both;
-// }
-
-.mod-all {
-	padding: 10px;
-}
-
-//.list {
-//	list-style: none;
-//}
-//.list__item {
-//	/* float: left; */
-//}

@@ -17,12 +17,12 @@ module.exports = (grunt) ->
 				options:
 					port: 8000
 					base: '.'
-					open: 'http://localhost:8000/'
+					# open: 'http://localhost:8000/'
 			doc:
 				options:
 					port: 8001
 					base: 'docs/'
-					open: 'http://localhost:8001/'
+					# open: 'http://localhost:8001/'
 
 		compass:
 			options:
@@ -68,8 +68,12 @@ module.exports = (grunt) ->
 				# 	]
 				# ]
 
-		uglify:
+		open:
+			dev:
+				path: 'http://dev.local:8888/dribbble/'
+				app: 'Google Chrome'
 
+		uglify:
 			options:
 				preserveComments: 'some'
 
@@ -77,7 +81,7 @@ module.exports = (grunt) ->
 				files:
 					"js/lib.min.js": [
 						"bower_components/lodash/dist/lodash.min.js",
-						"bower_components/handlebars.min.js",
+						"bower_components/handlebars/handlebars.min.js",
 						"bower_components/jquery/dist/jquery.min.js",
 						"bower_components/backbone/backbone.js"
 					]
@@ -124,6 +128,7 @@ module.exports = (grunt) ->
 		'connect:server',
 		'coffee',
 		'compass',
+		'open',
 		'watch'
 	]
 	# grunt.registerTask 'style', [ 'kss', 'connect:doc',  'watch' ]

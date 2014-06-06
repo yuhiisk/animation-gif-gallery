@@ -12,6 +12,7 @@
     "lodash": null,
     "backbone": null,
     "handlebars": null,
-    "jquery": null
+    "jquery": null,
+    "foundation": "~5.2.3"
   }
 }
