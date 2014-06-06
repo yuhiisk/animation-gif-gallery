@@ -11,8 +11,8 @@
 <link rel="stylesheet" href="css/style.css">
 <script src="js/modernizr.js"></script>
 </head>
-<body>
 
+<body>
 <header class="global-header top-bar" data-topbar>
 <ul class="title-area">
 <li class="name">
@@ -25,9 +25,9 @@
 <!-- Right nav Section -->
 <ul class="right">
 <li class="has-form">
-<div class="row collapse">
+<div id="Search" class="row collapse">
 <div class="large-8 small-9 columns">
-<input type="text" placeholder="Find stuff" />
+<input type="text" placeholder="username" value="" />
 </div>
 <div class="large-4 small-3 columns">
 <a href="#" class="button expand">Search</a>
@@ -39,11 +39,11 @@
 <!-- Left Nav Section -->
 <ul class="left">
 <li class="divider"></li>
-<li class="has-dropdown"><a href="#">Left button Dropdown</a>
+<li class="has-dropdown"><a href="#">Lists</a>
 <ul class="dropdown">
-<li><a href="#">First link in dropdown</a></li>
-<li><a href="#">Second link in dropdown</a></li>
-<li><a href="#">Last link in dropdown</a></li>
+<li><a href="#popular">Popular</a></li>
+<li><a href="#debuts">Debuts</a></li>
+<li><a href="#everyone">Everyone</a></li>
 </ul>
 </li>
 <li class="divider"></li>
@@ -51,17 +51,19 @@
 </section>
 <!-- /.global-header --></header>
 
-<main class="mod-all">
+<main id="App" class="mod-all">
 <ul id="BreadCrumbs" class="breadcrumbs">
-<li><a href="#">hoge</a></li>
-<li><a href="#">foo</a></li>
-<li><a href="#" class="unavailable">bar</a></li>
-<li><a href="#" class="current">baz</a></li>
+<!-- <li><a href="#">hoge</a></li> -->
+<!-- <li><a href="#">foo</a></li> -->
+<!-- <li><a href="#" class="unavailable">bar</a></li> -->
+<!-- <li><a href="#" class="current">baz</a></li> -->
 </ul>
+
+<noscript><div class="alert-box alert">JavascriptをONに設定してください</div></noscript>
 
 <!-- <div class="progress"><span class="meter" style="width: 90%;"></span></div> -->
 <ul id="List" class="small-block-grid-2 medium-block-grid-4 large-block-grid-5"></ul>
-</main>
+<!-- /.mod-all --></main>
 
 <footer class="global-footer">
 <p>Powered by <a href="https://dribbble.com/" target="_blank">Dribbble</a></p>
