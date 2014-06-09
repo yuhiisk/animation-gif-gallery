@@ -1,10 +1,15 @@
 (function(win, doc, $) {
   'use strict';
-  var app;
+  var SHOTS, app;
   app = win.app || {};
+  SHOTS = ['popular', 'debuts', 'everyone'];
   app.Data = Backbone.Model.extend({
     defaults: {
-      shots: ['popular', 'debuts', 'everyone']
+      config: {
+        shots: SHOTS,
+        page: 1,
+        per_page: 15
+      }
     }
   });
   app.DataList = Backbone.Collection.extend({
@@ -13,84 +18,126 @@
   });
   app.ListsController = Backbone.Router.extend({
     routes: {
-      'popular': 'popular',
-      'debuts': 'debuts',
-      'everyone': 'everyone',
+      ':id': 'view',
+      ':id/page': 'view',
+      ':id/page/:number': 'view',
       'player/:user': 'search'
     },
     initialize: function() {
       this.view = new app.ListView({
-        player: 'popular'
+        player: 'popular',
+        hashName: location.hash.replace('#', '')
       });
-      this.model = this.view.model;
       return Backbone.history.start();
     },
-    popular: function() {
-      return this.view.render({
-        player: 'popular'
+    view: function(id, number) {
+      this.view.render({
+        player: id,
+        page: number || 1
       });
-    },
-    debuts: function() {
-      return this.view.render({
-        player: 'debuts'
-      });
-    },
-    everyone: function() {
-      return this.view.render({
-        player: 'everyone'
-      });
+      return this.view.subNav.$('.' + id).addClass('active');
     },
     search: function(user) {
-      return this.view.render({
+      this.view.render({
         player: user
       });
+      return this.view.subNav.reset();
     }
   });
   app.ListView = Backbone.View.extend({
     el: '#List',
-    model: app.Data,
-    collection: app.DataList,
     initialize: function(option) {
       option = _.extend({
         page: 1,
-        par_page: 10
+        par_page: 15
       }, option);
       this.$item = $('#list-template').html();
       this.template = Handlebars.compile(this.$item);
-      return this.render(option);
+      this.collection = new app.DataList([]);
+      this.subNav = new app.SubNavView(option.player);
+      this.pagination = new app.PaginationView({
+        collection: this.collection
+      });
+      if (/player\/.+/ig.test(option.hashName) || _.indexOf(SHOTS, option.hashName) !== -1) {
+
+      } else {
+        return this.render(option);
+      }
     },
     render: function(option) {
-      var self;
-      self = this;
       this.reset();
-      this.collection = new app.DataList();
+      switch (option.player) {
+        case 'popular':
+          this.collection.url = 'http://api.dribbble.com/shots/popular';
+          break;
+        case 'debuts':
+          this.collection.url = 'http://api.dribbble.com/shots/debuts';
+          break;
+        case 'everyone':
+          this.collection.url = 'http://api.dribbble.com/shots/everyone';
+          break;
+        default:
+          this.collection.url = 'http://api.dribbble.com/players/' + option.player + '/shots/likes';
+      }
       return this.collection.fetch({
         data: option,
         dataType: 'jsonp',
         timeout: 50000
-      }).done(function(data) {
-        console.log(data);
-        return self.add(data);
-      });
+      }).done((function(_this) {
+        return function(data) {
+          return _this.add(data);
+        };
+      })(this));
     },
     add: function(data) {
-      var self;
-      self = this;
-      return _.each(data.shots, function(d, i) {
-        return self.$el.append(self.template(d));
-      });
+      return _.each(data.shots, (function(_this) {
+        return function(d, i) {
+          return _this.$el.append(_this.template(d));
+        };
+      })(this));
     },
     reset: function() {
       return this.$el.empty();
     }
   });
-  app.BreadCrumbs = Backbone.View.extend({
-    el: '#BreadCrumbs',
-    initialize: function() {
-      return this.$el.append('<li>Popular</li>');
+  app.SubNavView = Backbone.View.extend({
+    el: '#SubNav',
+    events: {
+      'click a': 'active'
+    },
+    initialize: function(id) {
+      return _.bindAll(this, 'active');
+    },
+    active: function(e) {
+      this.reset();
+      return $(e.currentTarget).parent().addClass('active');
     },
     reset: function() {
-      return this.$el.empty();
+      return this.$el.find('dd.active').removeClass('active');
+    }
+  });
+  app.PaginationView = Backbone.View.extend({
+    el: '#Pagination',
+    events: {
+      'click a': 'active',
+      'click .prev a': 'prev',
+      'click .next a': 'next'
+    },
+    initialize: function(page) {},
+    render: function() {
+      return console.log('call render');
+    },
+    active: function(e) {
+      console.log('call active');
+      return e.preventDefault();
+    },
+    prev: function(e) {
+      console.log('call prev');
+      return e.preventDefault();
+    },
+    next: function(e) {
+      console.log('call next');
+      return e.preventDefault();
     }
   });
   app.SearchView = Backbone.View.extend({
@@ -100,9 +147,9 @@
       'keypress input': 'submit'
     },
     initialize: function() {
+      _.bindAll(this, 'submit');
       this.$input = this.$('input[type="text"]');
-      this.$btn = this.$('a.button');
-      return _.bindAll(this, 'submit');
+      return this.$btn = this.$('a.button');
     },
     submit: function(e) {
       var isPress, name;
@@ -118,11 +165,10 @@
     }
   });
   app.init = function() {
-    var breadCrumbsView, listsController, searchView;
     $(doc).foundation();
-    breadCrumbsView = new app.BreadCrumbs();
-    searchView = new app.SearchView();
-    return listsController = new app.ListsController();
+    new app.SubNavView();
+    new app.SearchView();
+    return new app.ListsController();
   };
   $(function() {
     return app.init();

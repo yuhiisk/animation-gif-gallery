@@ -4400,7 +4400,7 @@ dialog[open] {
   margin-bottom: 0.625rem;
   font-family: "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
   font-weight: normal;
-  font-size: 0.875rem;
+  font-size: 0.75rem;
   color: #999999;
 }
 .sub-nav dt a,
@@ -6718,4 +6718,22 @@ th.hide-for-touch {
 }
 .mod-all {
   padding: 10px;
+}
+
+.list__item-author {
+  margin-top: 5px;
+  font-size: 13px;
+}
+.list__item-author img {
+  margin-right: 5px;
+  border-radius: 10px;
+  vertical-align: top;
+}
+
+.global-footer {
+  padding: 20px 0 5px;
+  border-top: 1px solid #eee;
+}
+.global-footer .copyright {
+  margin-bottom: 0;
 }
