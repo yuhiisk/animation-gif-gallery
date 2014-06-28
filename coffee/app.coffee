@@ -1,26 +1,39 @@
 ((win, doc, $) ->
+
 	'use strict'
 
 	# Namespace
 	app = win.app || {}
 
+
+	# Valiables
 	SHOTS = [ 'popular', 'debuts', 'everyone' ]
 
+
 	# Model
-	app.Data = Backbone.Model.extend
+	# =========================================================================
+	# app.Data = Backbone.Model.extend
+	class app.Data extends Backbone.Model
 		defaults:
 			config:
 				shots: SHOTS
 				page: 1
 				per_page: 15
 
+
+
 	# Collection
-	app.DataList = Backbone.Collection.extend
+	# =========================================================================
+	# app.DataList = Backbone.Collection.extend
+	class app.DataList extends Backbone.Collection
 		model: app.Data
 		url: 'http://api.dribbble.com/shots/popular'
 
+
 	# Router
-	app.ListsController = Backbone.Router.extend
+	# =========================================================================
+	# app.ListsController = Backbone.Router.extend
+	class app.ListsController extends Backbone.Router
 		routes:
 			':id': 'view'
 			':id/page': 'view'
@@ -32,6 +45,7 @@
 				player: 'popular'
 				hashName: location.hash.replace('#', '')
 			)
+			@view.subNav.$('.popular').addClass('active')
 			Backbone.history.start()
 
 		view: (id, number) ->
@@ -43,29 +57,37 @@
 
 		search: (user) ->
 			@view.render(player: user)
-			@view.subNav.reset()
+
 
 	# View
-	app.ListView = Backbone.View.extend
+	# =========================================================================
+	# ListView
+	# app.ListView = Backbone.View.extend
+	class app.ListView extends Backbone.View
 		el: '#List'
 
 		initialize: (option) ->
-			# _.bindAll(this)
+			# _.bindAll(@)
 			option = _.extend(
 				page: 1
 				par_page: 15
 			, option)
-			@$item = $('#list-template').html()
-			@template = Handlebars.compile(@$item)
-			@collection = new app.DataList([])
-			# @breadcrumbs = new app.BreadCrumbs()
-			@subNav = new app.SubNavView(option.player)
-			@pagination = new app.PaginationView(
+			@$item = $('#ListTemplate').html()
+			@template = Handlebars.compile @$item
+			@collection = new app.DataList []
+			@subNav = new app.SubNavView option.player
+			@pagination = new app.PaginationView
 				collection: @collection
+				option: option
+
+			isShots = _.some(SHOTS, (v, i) ->
+				if new RegExp(v, 'ig').test(option.hashName)
+					return true
+				return false
 			)
 
 			# hashが存在したら@renderは実行しない
-			if /player\/.+/ig.test(option.hashName) or _.indexOf(SHOTS, option.hashName) != -1
+			if /player\/.+/ig.test(option.hashName) or isShots
 				return
 			else
 				@render(option)
@@ -76,56 +98,41 @@
 			switch option.player
 				when 'popular'
 					@collection.url = 'http://api.dribbble.com/shots/popular'
-					# @breadcrumbs.add([option.player])
 				when 'debuts'
 					@collection.url = 'http://api.dribbble.com/shots/debuts'
-					# @breadcrumbs.add([option.player])
 				when 'everyone'
 					@collection.url = 'http://api.dribbble.com/shots/everyone'
-					# @breadcrumbs.add([option.player])
 				# TODO: 後で書き直し
 				else
 					@collection.url = 'http://api.dribbble.com/players/' + option.player + '/shots/likes'
-					# @breadcrumbs.add(['players', option.player])
 
 			@collection.fetch(
 				data: option
 				dataType: 'jsonp'
 				timeout: 50000
-			).done (data) => @add(data)
+			).done (data) => @add(data, option.player)
 
-		add: (data) ->
+		add: (data, player) ->
 			# TODO:怪しいから書き直し
 			_.each(data.shots, (d, i) =>
 				@$el.append(@template(d))
 			)
+			@pagination.render(data, player)
 
 		reset: ->
 			@$el.empty()
-			# @breadcrumbs.reset()
+			@subNav.reset()
 
-	# app.BreadCrumbs = Backbone.View.extend
-	# 	el: '#BreadCrumbs'
-	# 	initialize: () ->
-	# 		# @$el.append('<li>Popular</li>')
 
-	# 	add: (ids) ->
-	# 		item = ''
-	# 		_.each(ids, (id, i) ->
-	# 			item += '<li>' + id + '</li>'
-	# 		)
-	# 		@$el.append(item)
-
-	# 	reset: () ->
-	# 		@$el.empty()
-
-	app.SubNavView = Backbone.View.extend
+	# SubNav
+	# app.SubNavView = Backbone.View.extend
+	class app.SubNavView extends Backbone.View
 		el: '#SubNav'
 		events:
 			'click a': 'active'
 
 		initialize: (id) ->
-			_.bindAll(this, 'active')
+			_.bindAll(@, 'active')
 
 		active: (e) ->
 			@reset()
@@ -134,31 +141,63 @@
 		reset: () ->
 			@$el.find('dd.active').removeClass('active')
 
-	app.PaginationView = Backbone.View.extend
+
+	# Pagination
+	# app.PaginationView = Backbone.View.extend
+	class app.PaginationView extends Backbone.View
 		el: '#Pagination'
-		events:
-			'click a': 'active'
-			'click .prev a': 'prev'
-			'click .next a': 'next'
 
-		initialize: (page) ->
+		# events:
+			# 'click a': 'goto'
+			# 'click .prev a': 'prev'
+			# 'click .next a': 'next'
 
-		render: ->
-			console.log 'call render'
+		initialize: (data) ->
+			@$el.pagination(
+				prevText: '&laquo;'
+				nextText: '&raquo;'
+				cssStyle: 'disabled'
+				hrefTextPrefix: '#' + data.option.player + '/page/'
+				items: 750
+				itemsOnPage: 15
 
-		active: (e) ->
-			console.log 'call active'
-			e.preventDefault()
+				# default settings
+				# pages: 0
+				# displayedPages: 5
+				# edges: 2
+				# currentPage: 0
+				# hrefTextPrefix: '#page-'
+				# hrefTextSuffix: ''
+				# prevText: 'Prev'
+				# nextText: 'Next'
+				# ellipseText: '&hellip;'
+				# cssStyle: 'light-theme'
+				# labelMap: []
+				# selectOnClick: true
+				# nextAtFront: false
+				# invertPageOrder: false
+				# onPageClick: (pageNumber, event) ->
+				# 	// Callback triggered when a page is clicked
+				# 	// Page number is given as an optional parameter
+				# onInit: () ->
+			)
 
-		prev: (e) ->
-			console.log 'call prev'
-			e.preventDefault()
+		render: (option, category) ->
+			# console.log 'pagination render', @$el.data('pagination')
+			@reset()
+			o = @$el.data('pagination')
+			o.currentPage = parseInt(option.page, 10) - 1
+			o.hrefTextPrefix = '#' + category + '/page/'
 
-		next: (e) ->
-			console.log 'call next'
-			e.preventDefault()
+			@$el.pagination('updateItems', option.total)
 
-	app.SearchView = Backbone.View.extend
+		reset: ->
+			@$el.pagination('destroy')
+
+
+	# Search
+	# app.SearchView = Backbone.View.extend
+	class app.SearchView extends Backbone.View
 		el: '#Search'
 		events:
 			'click a.button': 'submit'
@@ -174,24 +213,30 @@
 			if isPress and e.which isnt 13
 				return
 
-			name = @$input.val()
+			if @$input.val() isnt ''
+				name = @$input.val().replace(/\s+/g, '')
+			else
+				e.preventDefault()
+				return
+
 			@$btn.attr('href', '#player/' + name)
 			if isPress
 				win.location.hash = '#player/' + name
 
 
-	# initialize
+	# Initialize Application
+	# =========================================================================
 	app.init = ->
 		# apply foundation
 		$(doc).foundation()
 
 		# Objects
-		new app.SubNavView()
-		new app.SearchView()
-		new app.ListsController()
+		searchView = new app.SearchView()
+		controller = new app.ListsController()
 
 
 	# Dom ready
+	# =========================================================================
 	$ ->
 		app.init()
 

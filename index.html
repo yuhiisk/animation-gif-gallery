@@ -22,7 +22,6 @@
 </ul>
 
 <section class="top-bar-section">
-<!-- Right nav Section -->
 <ul class="right">
 <li class="has-form">
 <div id="Search" class="row collapse">
@@ -35,24 +34,12 @@
 </div>
 </li>
 </ul>
-
-<!-- Left Nav Section -->
-<!-- <ul class="left"> -->
-<!-- <li class="divider"></li> -->
-<!-- <li class="has-dropdown"><a href="#">Lists</a> -->
-<!-- <ul class="dropdown"> -->
-<!-- <li><a href="#popular">Popular</a></li> -->
-<!-- <li><a href="#debuts">Debuts</a></li> -->
-<!-- <li><a href="#everyone">Everyone</a></li> -->
-<!-- </ul> -->
-<!-- </li> -->
-<!-- <li class="divider"></li> -->
-<!-- </ul> -->
-</section>
+<!-- /.top-bar-section --></section>
 <!-- /.global-header --></header>
 
 <main id="App" class="mod-all">
 <noscript><div class="alert-box alert">JavascriptをONに設定してください</div></noscript>
+
 <!-- <ul id="BreadCrumbs" class="breadcrumbs"> -->
 <!-- <li><a href="#">hoge</a></li> -->
 <!-- <li><a href="#">foo</a></li> -->
@@ -69,18 +56,17 @@
 
 <div class="pagination-centered">
 <ul id="Pagination" class="pagination">
-<li class="arrow prev"><a href="#">&laquo;</a></li>
-<li class="current"><a href="#">1</a></li>
-<li><a href="#">2</a></li>
-<li><a href="#">3</a></li>
-<li class="unavailable"><a href="#">&hellip;</a></li>
-<li><a href="#">11</a></li>
-<li><a href="#">12</a></li>
-<li><a href="#">13</a></li>
-<li class="arrow next"><a href="#">&raquo;</a></li>
+<!-- <li class="arrow prev"><a href="#">&laquo;</a></li> -->
+<!-- <li class="current"><a href="#popular/page/1">1</a></li> -->
+<!-- <li><a href="#popular/page/2">2</a></li> -->
+<!-- <li><a href="#popular/page/3">3</a></li> -->
+<!-- <li class="unavailable"><a href="#">&hellip;</a></li> -->
+<!-- <li><a href="#">11</a></li> -->
+<!-- <li><a href="#">12</a></li> -->
+<!-- <li><a href="#">13</a></li> -->
+<!-- <li class="arrow next"><a href="#">&raquo;</a></li> -->
 </ul>
 </div>
-
 
 <!-- <div class="progress"><span class="meter" style="width: 90%;"></span></div> -->
 <ul id="List" class="small-block-grid-2 medium-block-grid-4 large-block-grid-5"></ul>
@@ -92,17 +78,22 @@
 <!-- /.global-footer --></footer>
 
 
-<script id="list-template" type="text/x-handlebars-template">
+<script id="ListTemplate" type="text/x-handlebars-template">
 <li class="list__item">
   <a href="{{short_url}}" target="_blank">
-    <img src="{{image_url}}" alt="{{title}}" width="200" height="150" class="th" />
+    <img src="{{image_teaser_url}}" alt="{{title}}" width="200" height="150" class="th" />
   </a>
-  <div class="list__item-author"><img src="{{player.avatar_url}}" alt="{{player.username}}" width="20" height="20" /><a href="{{player.url}}">{{player.name}}</a></div>
+  <div class="list__item-author"><img src="{{player.avatar_url}}" alt="{{player.username}}" title="{{player.name}}" width="20" height="20" /><a href="{{player.url}}">{{player.name}}</a></div>
 </li>
+</script>
+
+<script id="PaginationTemplate" type="text/x-handlebars-template">
+<li class="{{current}}"><a href="#{{category}}/page/{{n}}">{{n}}</a></li>
 </script>
 
 <script src="js/lib.min.js"></script>
 <script src="js/foundation.js"></script>
+<script src="js/jquery.simplePagination.js"></script>
 <script src="js/app.js"></script>
 
 <script>

@@ -1,8 +1,9 @@
 module.exports = (grunt) ->
 
-	pkg = grunt.file.readJSON 'package.json'
 
 	grunt.initConfig
+
+		pkg: grunt.file.readJSON 'package.json'
 
 		banner: """
 /*! <%= pkg.name %> (<%= pkg.site.url %>)
@@ -17,12 +18,12 @@ module.exports = (grunt) ->
 				options:
 					port: 8000
 					base: '.'
-					# open: 'http://localhost:8000/'
+					open: 'http://localhost:<%= connect.server.options.port %>/'
 			doc:
 				options:
 					port: 8001
 					base: 'docs/'
-					# open: 'http://localhost:8001/'
+					# open: 'http://localhost:<%= connect.doc.options.port %>/'
 
 		compass:
 			options:
@@ -68,10 +69,10 @@ module.exports = (grunt) ->
 				# 	]
 				# ]
 
-		open:
-			dev:
-				path: 'http://dev.local:8888/dribbble/'
-				app: 'Google Chrome'
+		# open:
+			# dev:
+				# path: 'http://dev.local:8888/dribbble/'
+				# app: 'Google Chrome'
 
 		uglify:
 			options:
@@ -120,15 +121,14 @@ module.exports = (grunt) ->
 				# files:
 					# 'docs/': ['scss/']
 
-	for key of pkg.devDependencies
-		if /grunt-/.test key then grunt.loadNpmTasks(key)
+	for task of grunt.config.data.pkg.devDependencies
+		if /^grunt-/.test task then grunt.loadNpmTasks(task)
 
 	grunt.registerTask 'default', [
 		'uglify',
 		'connect:server',
 		'coffee',
 		'compass',
-		'open',
 		'watch'
 	]
 	# grunt.registerTask 'style', [ 'kss', 'connect:doc',  'watch' ]
