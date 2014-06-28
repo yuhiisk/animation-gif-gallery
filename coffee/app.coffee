@@ -12,7 +12,6 @@
 
 	# Model
 	# =========================================================================
-	# app.Data = Backbone.Model.extend
 	class app.Data extends Backbone.Model
 		defaults:
 			config:
@@ -21,10 +20,8 @@
 				per_page: 15
 
 
-
 	# Collection
 	# =========================================================================
-	# app.DataList = Backbone.Collection.extend
 	class app.DataList extends Backbone.Collection
 		model: app.Data
 		url: 'http://api.dribbble.com/shots/popular'
@@ -32,7 +29,6 @@
 
 	# Router
 	# =========================================================================
-	# app.ListsController = Backbone.Router.extend
 	class app.ListsController extends Backbone.Router
 		routes:
 			':id': 'view'
@@ -62,7 +58,6 @@
 	# View
 	# =========================================================================
 	# ListView
-	# app.ListView = Backbone.View.extend
 	class app.ListView extends Backbone.View
 		el: '#List'
 
@@ -125,7 +120,6 @@
 
 
 	# SubNav
-	# app.SubNavView = Backbone.View.extend
 	class app.SubNavView extends Backbone.View
 		el: '#SubNav'
 		events:
@@ -143,14 +137,8 @@
 
 
 	# Pagination
-	# app.PaginationView = Backbone.View.extend
 	class app.PaginationView extends Backbone.View
 		el: '#Pagination'
-
-		# events:
-			# 'click a': 'goto'
-			# 'click .prev a': 'prev'
-			# 'click .next a': 'next'
 
 		initialize: (data) ->
 			@$el.pagination(
@@ -183,7 +171,6 @@
 			)
 
 		render: (option, category) ->
-			# console.log 'pagination render', @$el.data('pagination')
 			@reset()
 			o = @$el.data('pagination')
 			o.currentPage = parseInt(option.page, 10) - 1
@@ -196,7 +183,6 @@
 
 
 	# Search
-	# app.SearchView = Backbone.View.extend
 	class app.SearchView extends Backbone.View
 		el: '#Search'
 		events:
