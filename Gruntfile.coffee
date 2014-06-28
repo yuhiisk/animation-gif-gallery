@@ -55,20 +55,6 @@ module.exports = (grunt) ->
 				dest: 'js/'
 				ext: '.js'
 
-				# files: [
-				# 	'spur/25th_anniversary/js/script.js': [
-				# 		'coffee/pc/class/start.coffee',
-				# 		'coffee/pc/class/init.coffee',
-				# 		'coffee/pc/class/view-app.coffee',
-				# 		'coffee/pc/class/view-thumbnail.coffee',
-				# 		'coffee/pc/class/view-movie.coffee',
-				# 		'coffee/pc/class/view-sns.coffee',
-				# 		'coffee/pc/class/view-nav.coffee',
-				# 		'coffee/pc/class/view-modal.coffee',
-				# 		'coffee/pc/class/end.coffee'
-				# 	]
-				# ]
-
 		# open:
 			# dev:
 				# path: 'http://dev.local:8888/dribbble/'
@@ -80,20 +66,22 @@ module.exports = (grunt) ->
 
 			lib:
 				files:
-					"js/lib.min.js": [
-						"bower_components/lodash/dist/lodash.min.js",
-						"bower_components/handlebars/handlebars.min.js",
-						"bower_components/jquery/dist/jquery.min.js",
-						"bower_components/backbone/backbone.js"
+					'js/lib.min.js': [
+						'bower_components/lodash/dist/lodash.min.js'
+						'bower_components/handlebars/handlebars.min.js'
+						'bower_components/jquery/dist/jquery.min.js'
+						'bower_components/backbone/backbone.js'
+						'bower_components/jquery.lazyload/jquery.lazyload.js'
+						'bower_components/jquery.simplePagination/jquery.simplePagination.js'
 					]
 				# src: ['<%= concat.pc.dest %>']
-				# dest: PC_ROOT + 'js/lib.min.js'
+				# dest: 'js/lib.min.js'
 
 			# script:
 				# options:
 					# banner: '<%= banner %>'
-				# src: [PC_ROOT + 'js/script.js']
-				# dest: PC_ROOT + 'js/script.min.js'
+				# src: ['js/script.js']
+				# dest: 'js/script.min.js'
 
 		watch:
 			options:
