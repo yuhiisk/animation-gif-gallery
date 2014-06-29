@@ -6716,8 +6716,70 @@ th.hide-for-touch {
     display: table-cell !important;
   }
 }
+.global-header h1 .fa {
+  margin-right: 5px;
+}
+.global-header .icon-gear:hover .fa-cog {
+  -webkit-animation: spin 2s infinite linear;
+  -moz-animation: spin 2s infinite linear;
+  -o-animation: spin 2s infinite linear;
+  animation: spin 2s infinite linear;
+}
+.global-header .icon-gear .active a:not(.button) {
+  background: #008cba !important;
+}
+
+@-moz-keyframes spin {
+  0% {
+    -moz-transform: rotate(0deg);
+  }
+
+  100% {
+    -moz-transform: rotate(359deg);
+  }
+}
+
+@-webkit-keyframes spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+  }
+
+  100% {
+    -webkit-transform: rotate(359deg);
+  }
+}
+
+@-o-keyframes spin {
+  0% {
+    -o-transform: rotate(0deg);
+  }
+
+  100% {
+    -o-transform: rotate(359deg);
+  }
+}
+
+@keyframes spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+
+  100% {
+    -webkit-transform: rotate(359deg);
+    transform: rotate(359deg);
+  }
+}
+
 .mod-all {
   padding: 10px;
+}
+
+.list {
+  min-height: 570px;
+}
+.list.is-loading {
+  background: url('../img/loading.gif') no-repeat center center;
 }
 
 .list__item-author {

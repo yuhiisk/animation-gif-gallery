@@ -4,9 +4,10 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <title>Dribbbler</title>
-<meta name="description" content="">
+<meta name="description" content="Dribbble API demo.">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css">
 <link rel="stylesheet" href="css/normalize.css">
 <link rel="stylesheet" href="css/style.css">
 <script src="js/modernizr.js"></script>
@@ -16,13 +17,26 @@
 <header class="global-header top-bar" data-topbar>
 <ul class="title-area">
 <li class="name">
-<h1><a href="./">Dribbbler</a></h1>
+<h1><a href="./"><i class="fa fa-dribbble"></i>Dribbbler</a></h1>
 </li>
 <li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
 </ul>
 
 <section class="top-bar-section">
 <ul class="right">
+<li class="has-dropdown icon-gear">
+<a href="#"><i class="fa fa-cog"></i></a>
+<ul class="dropdown">
+<li class="has-dropdown">
+<a href="#">image size</a>
+<ul id="Setting" class="dropdown">
+<li><label>choose image size</label></li>
+<li class="active"><a href="#" data-image-size="1" title="Small size (no animation)">200x150 (small)</a></li>
+<li><a href="#" data-image-size="0" title="Large size">400x300 (natural)</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="has-form">
 <div id="Search" class="row collapse">
 <div class="large-8 small-9 columns">
@@ -55,11 +69,15 @@
 </dl>
 
 <div class="pagination-centered">
-<ul id="Pagination" class="pagination"></ul>
+<ul class="pagination"></ul>
 </div>
 
 <!-- <div class="progress"><span class="meter" style="width: 90%;"></span></div> -->
-<ul id="List" class="small-block-grid-2 medium-block-grid-4 large-block-grid-5"></ul>
+<ul id="List" class="list loading small-block-grid-2 medium-block-grid-4 large-block-grid-5"></ul>
+
+<div class="pagination-centered">
+<ul class="pagination"></ul>
+</div>
 <!-- /.mod-all --></main>
 
 <footer class="global-footer text-center">
@@ -70,15 +88,15 @@
 
 <script id="ListTemplate" type="text/x-handlebars-template">
 <li class="list__item">
-  <a href="{{short_url}}" target="_blank">
-    <img src="{{image_teaser_url}}" alt="{{title}}" width="200" height="150" class="th" />
-  </a>
-  <div class="list__item-author"><img src="{{player.avatar_url}}" alt="{{player.username}}" title="{{player.name}}" width="20" height="20" /><a href="{{player.url}}">{{player.name}}</a></div>
+<a href="{{short_url}}" target="_blank">
+{{#if size}}
+<img data-original="{{image_teaser_url}}" alt="{{title}}" width="200" height="150" class="lazy th" />
+{{else}}
+<img data-original="{{image_url}}" alt="{{title}}" width="200" height="150" class="lazy th" />
+{{/if}}
+</a>
+<div class="list__item-author"><img src="{{player.avatar_url}}" alt="{{player.username}}" title="{{player.name}}" width="20" height="20" /><a href="{{player.url}}">{{player.name}}</a></div>
 </li>
-</script>
-
-<script id="PaginationTemplate" type="text/x-handlebars-template">
-<li class="{{current}}"><a href="#{{category}}/page/{{n}}">{{n}}</a></li>
 </script>
 
 <script src="js/lib.min.js"></script>
@@ -90,7 +108,7 @@
   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
   m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
   })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-  ga('create', 'UA-51698240-1', 'yuhiisk.com');ga('send', 'pageview');
+  ga('create', 'UA-51698240-1', 'auto');ga('send', 'pageview');
 </script>
 </body>
 </html>

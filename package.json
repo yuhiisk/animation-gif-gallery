@@ -1,12 +1,12 @@
 {
-  "name": "aniGIF-gallery",
+  "name": "Dribbbler",
   "version": "1.0.0",
-  "description": "no description.",
+  "description": "Dribbble api demo.",
   "scripts": {
     "test": "."
   },
   "site": {
-    "url": "http://example.com/"
+    "url": "http://www.yuhiisk.com/dribbbler/"
   },
   "author": "Youhei Isokawa <youheiisokawa@gmail.com>",
   "license": "MIT",

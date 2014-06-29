@@ -15,6 +15,7 @@
     "jquery": null,
     "foundation": "~5.2.3",
     "jquery.simplePagination": "*",
-    "jquery.lazyload": "~1.9.3"
+    "jquery.lazyload": "~1.9.3",
+    "BttrLazyLoading": "~1.0.5"
   }
 }
