@@ -72,7 +72,6 @@
 <ul class="pagination"></ul>
 </div>
 
-<!-- <div class="progress"><span class="meter" style="width: 90%;"></span></div> -->
 <ul id="List" class="list loading small-block-grid-2 medium-block-grid-4 large-block-grid-5"></ul>
 
 <div class="pagination-centered">
@@ -88,14 +87,18 @@
 
 <script id="ListTemplate" type="text/x-handlebars-template">
 <li class="list__item">
-<a href="{{short_url}}" target="_blank">
+<a href="{{short_url}}" class="list__link" target="_blank">
 {{#if size}}
-<img data-original="{{image_teaser_url}}" alt="{{title}}" width="200" height="150" class="lazy th" />
+<img data-original="{{image_teaser_url}}" alt="{{title}}" width="200" height="150" class="lazy" />
 {{else}}
-<img data-original="{{image_url}}" alt="{{title}}" width="200" height="150" class="lazy th" />
+<img data-original="{{image_url}}" alt="{{title}}" width="200" height="150" class="lazy" />
 {{/if}}
+<div class="list__info">
+<h3 class="list__title">{{title}}</h3>
+<p class="list__description">{{description}}</p>
+</div>
 </a>
-<div class="list__item-author"><img src="{{player.avatar_url}}" alt="{{player.username}}" title="{{player.name}}" width="20" height="20" /><a href="{{player.url}}">{{player.name}}</a></div>
+<div class="list__author"><img src="{{player.avatar_url}}" alt="{{player.username}}" title="{{player.name}}" width="20" height="20" /><a href="{{player.url}}" class="list__author-link">{{player.name}}</a></div>
 </li>
 </script>
 

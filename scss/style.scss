@@ -56,9 +56,11 @@
   }
 }
 
+
 .mod-all {
 	padding: 10px;
 }
+
 
 .list {
 	min-height: 570px;
@@ -68,10 +70,62 @@
 }
 
 .list__item {
+
+}
+.list__link {
+	display: inline-block;
+	position: relative;
+	overflow: hidden;
+	border: solid 4px white;
+	box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.2);
+	transition: all 200ms ease-out;
+
+	&:link,
+	&:hover,
+	&:visited,
+	&:active {
+		color: #222;
+	}
+	&:hover,
+	&:focus {
+		box-shadow: 0 0 6px 1px rgba(0, 140, 186, 0.5);
+	}
+
+	img {
+		line-height: 0;
+		display: inline-block;
+		max-width: 100%;
+	}
+}
+.list__info {
+	position: absolute;
+	top: 0;
+	left: 0;
+	overflow: hidden;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(255, 255, 255, .8);
+	@include transform(translate3d(0, 100%, 0));
+	transition: all 200ms ease-out;
+
+	.list__link:hover & {
+		// top: 0;
+		@include transform(translate3d(0, 0, 0));
+	}
+}
+.list__title {
+	margin: 0;
+	padding: 10px 10px 5px;
+	font-size: 1rem;
+}
+.list__description {
+	padding: 0 10px 10px;
+	font-size: 0.81rem;
+	line-height: 1.4;
 }
 
-.list__item-author {
-	margin-top: 5px;
+.list__author {
+	//margin-top: 5px;
 	font-size: 13px;
 
 	img {
